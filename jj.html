@@ -335,37 +335,9 @@ document.addEventListener("DOMContentLoaded", typeEffect);
 </script>
 
 
-<!-- GSAP Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
 
-<!-- ScrollTrigger Plugin -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
 
-<script>
-    gsap.registerPlugin(ScrollTrigger);
-  
-    const allSections = document.querySelectorAll("section");
-  
-    allSections.forEach((section) => {
-      // Select all relevant elements to animate
-      const elements = section.querySelectorAll("h1, p, img, .container-two h3, .container-four h3");
-  
-      gsap.from(elements, {
-        y: 300, // Slide up from 300px below
-        opacity: 0, // Start invisible
-        duration: 1, // Animation duration
-        ease: "power3.out",
-        stagger: 0.1, // Add delay between animations
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%", // Trigger animation when top of section hits 80% viewport height
-          end: "bottom 20%", // End animation when bottom of section hits 20% viewport height
-          toggleActions: "play reverse play reverse", // Replay animation on scroll
-        },
-      });
-    });
-  </script>
-  
+
 
 
 </html>
