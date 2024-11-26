@@ -189,20 +189,20 @@ coloredSections.forEach((section, i) => {
         gsap.to(["body", "header"], {
           backgroundColor: bgColor,
           color: textColor,
-          duration: 0.1, // Smooth transition duration
+          duration: 0, // Smooth transition duration
           overwrite: "auto",
         });
         // Ensure header text turns to the section's text color
         gsap.to("header a, header nav a:not(.contact-talk)", {
           color: textColor,
-          duration: 0.1,
+          duration: 0,
           overwrite: "auto",
         });
         // Reverse the colors for the contact-talk button
         gsap.to(".contact-talk", {
           backgroundColor: textColor, // Reverse: background becomes the text color
           color: bgColor, // Reverse: text becomes the background color
-          duration: 0.1,
+          duration: 0,
           overwrite: "auto",
         });
       }
