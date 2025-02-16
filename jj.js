@@ -445,73 +445,90 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   gsap.registerPlugin(ScrollTrigger);
 
-  // ✅ Fade-in animation for each section
+  // ✅ Optimized Fade-in Animation for Sections
   gsap.utils.toArray("section").forEach((section) => {
-    gsap.from(section, {
+    let animationConfig = {
       opacity: 0,
-      y: 50, // Slight upward motion
-      duration: 1,
+      duration: window.innerWidth <= 768 ? 0.5 : 1, // Reduce duration for mobile
       ease: "power2.out",
       scrollTrigger: {
         trigger: section,
-        start: "top 80%", // Start animation when section is 80% in view
+        start: "top 85%", // Slightly earlier trigger for better UX
         toggleActions: "play none none reverse",
       },
-    });
+    };
+
+    if (window.innerWidth > 768) {
+      animationConfig.y = 30; // Reduced upward motion for desktop
+    }
+
+    gsap.from(section, animationConfig);
   });
 
-  // ✅ Fade-in and slide animation for images
+  // ✅ Optimized Image Fade-in Animation
   gsap.utils.toArray("img").forEach((image) => {
-    gsap.from(image, {
+    let imageConfig = {
       opacity: 0,
-      scale: 0.9, // Slight zoom-in effect
-      duration: 1,
+      duration: window.innerWidth <= 768 ? 0.5 : 1, // Reduce duration for mobile
       ease: "power2.out",
       scrollTrigger: {
         trigger: image,
-        start: "top 85%",
+        start: "top 90%", // Trigger closer to visibility
         toggleActions: "play none none reverse",
       },
-    });
+    };
+
+    if (window.innerWidth > 768) {
+      imageConfig.scale = 0.95; // Slight zoom-in effect for desktop only
+    }
+
+    gsap.from(image, imageConfig);
   });
 
-  // ✅ Typing effect remains as is
-  const typingText = document.querySelector(".typing-text");
-  if (typingText) {
-    const words = [
-      "software development",
-      "web development",
-      "graphic designing",
-      "web designing",
-      "cybersecurity",
-    ];
-    let wordIndex = 0,
-      charIndex = 0,
-      isDeleting = false,
-      typingSpeed = 100;
-
-    function typeEffect() {
-      const currentWord = words[wordIndex];
-      if (isDeleting) {
-        typingText.textContent = currentWord.substring(0, charIndex--);
-        typingSpeed = 50;
-      } else {
-        typingText.textContent = currentWord.substring(0, charIndex++);
-        typingSpeed = 100;
-      }
-
-      if (!isDeleting && charIndex === currentWord.length) {
-        setTimeout(() => (isDeleting = true), 1500);
-      } else if (isDeleting && charIndex === 0) {
-        isDeleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
-      }
-
-      setTimeout(typeEffect, typingSpeed);
-    }
-    typeEffect();
+  // ✅ Update Animations on Resize
+  function updateAnimations() {
+    ScrollTrigger.refresh();
   }
+
+  window.addEventListener("resize", updateAnimations);
 });
+
+// ✅ Typing effect remains as is
+const typingText = document.querySelector(".typing-text");
+if (typingText) {
+  const words = [
+    "software development",
+    "web development",
+    "graphic designing",
+    "web designing",
+    "cybersecurity",
+  ];
+  let wordIndex = 0,
+    charIndex = 0,
+    isDeleting = false,
+    typingSpeed = 100;
+
+  function typeEffect() {
+    const currentWord = words[wordIndex];
+    if (isDeleting) {
+      typingText.textContent = currentWord.substring(0, charIndex--);
+      typingSpeed = 50;
+    } else {
+      typingText.textContent = currentWord.substring(0, charIndex++);
+      typingSpeed = 100;
+    }
+
+    if (!isDeleting && charIndex === currentWord.length) {
+      setTimeout(() => (isDeleting = true), 1500);
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      wordIndex = (wordIndex + 1) % words.length;
+    }
+
+    setTimeout(typeEffect, typingSpeed);
+  }
+  typeEffect();
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   const navLinks = document.querySelectorAll("nav a");
