@@ -182,8 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 250);
   });
 
-  // Prevent Scroll Restoration
-  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
 });
 document.addEventListener("DOMContentLoaded", function () {
   const hamburger = document.querySelector(".hamburger");
