@@ -445,51 +445,40 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   gsap.registerPlugin(ScrollTrigger);
 
-  // ✅ Optimized Fade-in Animation for Sections
+  // ✅ Optimized Fade-in Animation for Sections (No Upward Motion for Mobile)
   gsap.utils.toArray("section").forEach((section) => {
-    let animationConfig = {
+    gsap.from(section, {
       opacity: 0,
       duration: window.innerWidth <= 768 ? 0.5 : 1, // Reduce duration for mobile
       ease: "power2.out",
+      ...(window.innerWidth > 768 && { y: 30 }), // Apply upward motion only for larger screens
       scrollTrigger: {
         trigger: section,
-        start: "top 85%", // Slightly earlier trigger for better UX
+        start: "top 85%",
         toggleActions: "play none none reverse",
       },
-    };
-
-    if (window.innerWidth > 768) {
-      animationConfig.y = 30; // Reduced upward motion for desktop
-    }
-
-    gsap.from(section, animationConfig);
+    });
   });
 
-  // ✅ Optimized Image Fade-in Animation
+  // ✅ Optimized Image Fade-in Animation (No Upward Motion for Mobile)
   gsap.utils.toArray("img").forEach((image) => {
-    let imageConfig = {
+    gsap.from(image, {
       opacity: 0,
-      duration: window.innerWidth <= 768 ? 0.5 : 1, // Reduce duration for mobile
+      duration: window.innerWidth <= 768 ? 0.5 : 1,
       ease: "power2.out",
+      ...(window.innerWidth > 768 && { scale: 0.95 }), // Slight zoom-in only for larger screens
       scrollTrigger: {
         trigger: image,
-        start: "top 90%", // Trigger closer to visibility
+        start: "top 90%",
         toggleActions: "play none none reverse",
       },
-    };
-
-    if (window.innerWidth > 768) {
-      imageConfig.scale = 0.95; // Slight zoom-in effect for desktop only
-    }
-
-    gsap.from(image, imageConfig);
+    });
   });
 
-  // ✅ Update Animations on Resize
+  // ✅ Refresh GSAP Animations on Resize
   function updateAnimations() {
     ScrollTrigger.refresh();
   }
-
   window.addEventListener("resize", updateAnimations);
 });
 
