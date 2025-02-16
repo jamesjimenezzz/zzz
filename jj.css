@@ -873,13 +873,6 @@ footer nav .fa-square-instagram {
   }
 }
 
-.text-effect p {
-  will-change: transform, opacity;
-  /* Hint browser for optimization */
-  transform: none !important;
-  opacity: 1 !important;
-}
-
 @media (max-width: 1100px) {
   .recent-works-images p {
     opacity: 1 !important;
@@ -1118,6 +1111,10 @@ footer nav .fa-square-instagram {
 }
 
 @media (max-width: 767px) {
+  html {
+    scroll-behavior: auto; /* Prevents lag */
+  }
+
   .recent-works-images p {
     opacity: 1 !important;
     visibility: visible;
