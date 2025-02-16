@@ -29,32 +29,45 @@ document.addEventListener("DOMContentLoaded", function () {
     gsap.to(["body", "header"], {
       backgroundColor: bgColor,
       color: textColor,
-      duration: 0.5,
+      duration: 0.3, // Reduce duration for faster switching
+      immediateRender: true, // Ensure it applies immediately
     });
 
-    gsap.to(".main-logo", { color: textColor, duration: 0.5 });
+    gsap.to(".main-logo", {
+      color: textColor,
+      duration: 0.3,
+      immediateRender: true,
+    });
     gsap.to("header nav a:not(.contact-talk)", {
       color: textColor,
-      duration: 0.5,
+      duration: 0.3,
+      immediateRender: true,
     });
 
-    // Reverse colors for the "Contact Me" button
+    // ✅ Reverse colors for the "Contact Me" button
     gsap.to(".contact-talk", {
       backgroundColor: textColor,
       color: bgColor,
-      duration: 0.5,
+      duration: 0.3,
+      immediateRender: true,
     });
 
-    // Update mobile navigation background and link colors
-    gsap.to(".mobile-nav", { backgroundColor: bgColor, duration: 0.5 });
+    // ✅ Ensure mobile navigation updates correctly
+    gsap.to(".mobile-nav", {
+      backgroundColor: bgColor,
+      duration: 0.3,
+      immediateRender: true,
+    });
     gsap.to(".mobile-nav a:not(.contact-talk)", {
       color: textColor,
-      duration: 0.5,
+      duration: 0.3,
+      immediateRender: true,
     });
     gsap.to(".mobile-nav .contact-talk", {
       backgroundColor: textColor,
       color: bgColor,
-      duration: 0.5,
+      duration: 0.3,
+      immediateRender: true,
     });
 
     // ✅ Change hamburger color only between 768px and 1062px
@@ -62,7 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
       let hamburgerColor = bgColor === "#e8e8e3" ? "#161614" : "#ffffff";
       gsap.to(".hamburger span", {
         backgroundColor: hamburgerColor,
-        duration: 0.5,
+        duration: 0.3,
+        immediateRender: true,
       });
     }
   }
@@ -246,8 +260,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       ScrollTrigger.create({
         trigger: section,
-        start: "top 80%",
-        end: "bottom 20%",
+        start: "top 50%",
+        end: "bottom 50%",
         onEnter: () => changeColors(bgColor, textColor),
         onEnterBack: () => changeColors(bgColor, textColor),
       });
@@ -426,4 +440,133 @@ document.addEventListener("DOMContentLoaded", function () {
 
   checkScreenSize();
   window.addEventListener("resize", checkScreenSize);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ✅ Fade-in animation for each section
+  gsap.utils.toArray("section").forEach((section) => {
+    gsap.from(section, {
+      opacity: 0,
+      y: 50, // Slight upward motion
+      duration: 1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: section,
+        start: "top 80%", // Start animation when section is 80% in view
+        toggleActions: "play none none reverse",
+      },
+    });
+  });
+
+  // ✅ Fade-in and slide animation for images
+  gsap.utils.toArray("img").forEach((image) => {
+    gsap.from(image, {
+      opacity: 0,
+      scale: 0.9, // Slight zoom-in effect
+      duration: 1,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: image,
+        start: "top 85%",
+        toggleActions: "play none none reverse",
+      },
+    });
+  });
+
+  // ✅ Typing effect remains as is
+  const typingText = document.querySelector(".typing-text");
+  if (typingText) {
+    const words = [
+      "software development",
+      "web development",
+      "graphic designing",
+      "web designing",
+      "cybersecurity",
+    ];
+    let wordIndex = 0,
+      charIndex = 0,
+      isDeleting = false,
+      typingSpeed = 100;
+
+    function typeEffect() {
+      const currentWord = words[wordIndex];
+      if (isDeleting) {
+        typingText.textContent = currentWord.substring(0, charIndex--);
+        typingSpeed = 50;
+      } else {
+        typingText.textContent = currentWord.substring(0, charIndex++);
+        typingSpeed = 100;
+      }
+
+      if (!isDeleting && charIndex === currentWord.length) {
+        setTimeout(() => (isDeleting = true), 1500);
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+      }
+
+      setTimeout(typeEffect, typingSpeed);
+    }
+    typeEffect();
+  }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const navLinks = document.querySelectorAll("nav a");
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~";
+  const intervalTime = 50;
+  const shuffleDuration = 400;
+
+  function applyShuffleEffect() {
+    if (window.innerWidth >= 768) {
+      navLinks.forEach((link) => {
+        let originalText = link.innerText.trim();
+        let textNode = Array.from(link.childNodes).find(
+          (node) => node.nodeType === 3
+        );
+        if (!textNode) return;
+
+        link.addEventListener("mouseenter", function () {
+          let elapsedTime = 0;
+          let shuffleInterval = setInterval(() => {
+            textNode.nodeValue = originalText
+              .split("")
+              .map((char) =>
+                char === " "
+                  ? " "
+                  : characters[Math.floor(Math.random() * characters.length)]
+              )
+              .join("");
+
+            elapsedTime += intervalTime;
+            if (elapsedTime >= shuffleDuration) {
+              clearInterval(shuffleInterval);
+              textNode.nodeValue = originalText;
+            }
+          }, intervalTime);
+          link.dataset.shuffleId = shuffleInterval;
+        });
+
+        link.addEventListener("mouseleave", function () {
+          clearInterval(link.dataset.shuffleId);
+          textNode.nodeValue = originalText;
+        });
+      });
+    } else {
+      // ✅ Disable shuffle effect on smaller screens
+      navLinks.forEach((link) => {
+        link.onmouseenter = null;
+        link.onmouseleave = null;
+      });
+    }
+  }
+
+  // ✅ Apply shuffle effect initially if screen width is 768px+
+  applyShuffleEffect();
+
+  // ✅ Re-check on window resize
+  window.addEventListener("resize", applyShuffleEffect);
 });
