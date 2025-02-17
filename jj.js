@@ -18,8 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     ScrollTrigger.create({
       trigger: section,
-      start: "top 80%", // Delay activation for smoother transitions
-      end: "bottom 20%", // Prevent frequent triggers
+      start: "top 50%", // Delay activation for smoother transitions
+      end: "bottom 50%", // Prevent frequent triggers
       onEnter: () => changeColors(bgColor, textColor),
       onEnterBack: () => changeColors(bgColor, textColor),
     });
@@ -181,8 +181,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Resize event optimized! Adjusting layout...");
     }, 250);
   });
-
-
 });
 document.addEventListener("DOMContentLoaded", function () {
   const hamburger = document.querySelector(".hamburger");
