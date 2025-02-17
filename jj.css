@@ -860,16 +860,12 @@ footer nav .fa-square-instagram {
 
 @media (max-width: 1100px) {
   .recent-works-images p {
-    opacity: 1 !important;
-    visibility: visible;
-    position: static;
-    transform: none;
     background: rgba(0, 0, 0, 0.7); /* Make it darker for better readability */
     color: lightgray;
     font-size: 1.5rem;
     padding: 1rem;
     border-radius: 8px;
-    width: 100%;
+
     text-align: center;
     margin-top: 1rem;
   }
@@ -1116,22 +1112,35 @@ footer nav .fa-square-instagram {
   }
 }
 
+@media (max-width: 768px) {
+  .fa-github {
+    color: #e8e8e3 !important;
+    font-size: 4rem;
+  }
+
+  .fa-linkedin {
+    color: #e8e8e3 !important;
+    font-size: 4rem;
+  }
+
+  .fa-square-instagram {
+    color: #e8e8e3 !important;
+    font-size: 4rem;
+  }
+}
+
 @media (max-width: 767px) {
   html {
     scroll-behavior: auto; /* Prevents lag */
   }
 
   .recent-works-images p {
-    opacity: 1 !important;
-    visibility: visible;
-    position: static;
-    transform: none;
     background: rgba(0, 0, 0, 0.7); /* Make it darker for better readability */
     color: lightgray;
     font-size: 1.5rem;
     padding: 1rem;
     border-radius: 8px;
-    width: 100%;
+
     text-align: center;
     margin-top: 1rem;
   }
